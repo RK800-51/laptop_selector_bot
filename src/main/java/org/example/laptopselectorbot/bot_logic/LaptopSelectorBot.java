@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Component
 public class LaptopSelectorBot extends TelegramLongPollingBot {
-    //private HashMap<Long, Integer> usersStatus = new HashMap<>();
+    private HashMap<Long, Integer> usersStatus = new HashMap<>();
     final BotConfig config;
 
     public LaptopSelectorBot(BotConfig config) {
@@ -24,12 +24,23 @@ public class LaptopSelectorBot extends TelegramLongPollingBot {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
 
-            switch (messageText) {
-                case "/start":
-                    startCommandReceived(chatId);
-                    break;
-                default: sendMessage(chatId, "Команда не распознана, известные команды: /start");
+            // TODO: создать логику общения - этот метод вызывается каждый раз, когда пользователь что-то написал боту
+            // расписать кучу ифов: связать последовательность вопросов с userStatus-мапой и аутпутом, который дает пользователь
+            // формировать из аутпута мапу inputMap
+            if (messageText.equals("/start")) {
+                startCommandReceived(chatId);
             }
+            else {
+                sendMessage(chatId, "Команда не распознана, известные команды: /start");
+            }
+
+//            switch (messageText) {
+//                case "/start":
+//                    startCommandReceived(chatId);
+//                    break;
+//                default: sendMessage(chatId, "Команда не распознана, известные команды: /start");
+//            }
+
         }
 
         // Check if the update has a message
@@ -93,12 +104,18 @@ public class LaptopSelectorBot extends TelegramLongPollingBot {
         String answer = "Здравствуй, человек! Я бот, который умеет искать ноутбуки";
         sendMessage(chatId, answer);
 
+        // инициализируем контейнеры для хранения истории диалога бота с пользователем
+        Integer status = usersStatus.put(chatId, 0);
         Map<String, String> inputMap = new HashMap<>();
 
+//        switch (status) {
+//            case 0:
+//                String questionModelName = "Введите бренд и желательно название линейки (уточнение линейки ускорит поиск):";
+//                sendMessage(chatId, questionModelName);
+//
+//                usersStatus.put(chatId, 1);
+//        }
 
-        String questionModelName = "Введите бренд и желательно название линейки (уточнение линейки ускорит поиск):";
-        sendMessage(chatId, questionModelName);
-        String answerModelName;
     }
 
 
