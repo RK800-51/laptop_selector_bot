@@ -8,9 +8,8 @@ import java.io.IOException;
 @SpringBootApplication
 public class LaptopSelectorBotApplication {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         SpringApplication.run(LaptopSelectorBotApplication.class);
-        // LaptopSelectorStarter.start();
     }
 
 }

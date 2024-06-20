@@ -49,12 +49,8 @@ public class LaptopStoreParser {
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
         OutputStream os = conn.getOutputStream();
-        //System.out.println(postData);
         os.write(postData.toString().getBytes(StandardCharsets.UTF_8));
         os.close();
-
-        int responseCode = conn.getResponseCode();
-        //System.out.println("Response Code :  " + responseCode);
 
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String output;

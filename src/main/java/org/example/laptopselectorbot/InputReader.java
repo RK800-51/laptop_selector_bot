@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+// консольный класс, более не используется
+
 public class InputReader {
     public static Map loadUserInput() throws IOException {
         // считываем инпут пользователя

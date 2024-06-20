@@ -1,11 +1,14 @@
 package org.example.laptopselectorbot;
 
 
+import org.example.laptopselectorbot.bot_logic.LaptopSelectorBot;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+
+import org.example.laptopselectorbot.bot_logic.LaptopSelectorBot.*;
 
 
 public class LaptopSelectorStarter
@@ -13,7 +16,10 @@ public class LaptopSelectorStarter
     public static void start() throws IOException {
 
         // считываем инпут пользователя
-        Map <String, String> inputMap = InputReader.loadUserInput();
+        Map<String, String> inputMap = null;
+        if (LaptopSelectorBot.isInputReady()) {
+            inputMap = LaptopSelectorBot.getInputMap();
+        }
         // скармливаем параметры парсеру и создаем объект желаемого ноутбука
         LaptopStoreParser parsedLaptop = new LaptopStoreParser();
         Laptop laptopObj = new Laptop();
@@ -25,7 +31,8 @@ public class LaptopSelectorStarter
         // отдаем анализатору ноутбуки на сравнение, вернет 1 JSON-объект с найденным ноутбуком или 1 JSON-объект с
         // сообщением, что подходящий ноутбук не найден
         JSONObject result = Analyzer.compareLaptops(laptopCandidate, laptopObj, laptopsIDList);
-        System.out.println(result.toString(4));
+        LaptopSelectorBot.loadJSONResult(result);
+        //System.out.println(result.toString(4));
     }
 }
 

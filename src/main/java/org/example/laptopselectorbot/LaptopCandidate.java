@@ -16,8 +16,6 @@ public class LaptopCandidate {
     private static String gpuModel;
 
 
-    // TODO: дописать парсинг параметров одного ноутбука (добавить параметры?)
-
     public void loadJSONobj(JSONObject oneLaptopCandidate) {
         if (oneLaptopCandidate.has("0")) {
             JSONObject laptopCandidateInfo = oneLaptopCandidate.getJSONObject("0");
