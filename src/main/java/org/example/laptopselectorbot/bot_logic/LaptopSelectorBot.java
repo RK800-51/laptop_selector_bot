@@ -20,6 +20,7 @@ import org.example.laptopselectorbot.LaptopSelectorStarter.*;
 public class LaptopSelectorBot extends TelegramLongPollingBot {
     private HashMap<Long, Integer> usersStatus = new HashMap<>();
     public static Map<String, String> inputMap = new HashMap<>();
+    public static Map<String, String> data = new HashMap<>();
     private static boolean _inputReady = false;
     private static JSONObject _result;
     final BotConfig config;
@@ -29,6 +30,11 @@ public class LaptopSelectorBot extends TelegramLongPollingBot {
     }
 
     public static Map<String, String> getInputMap() {
+        return inputMap;
+    }
+
+    public static Map<String, String> clearInputMap() {
+        inputMap.clear();
         return inputMap;
     }
 
@@ -44,6 +50,7 @@ public class LaptopSelectorBot extends TelegramLongPollingBot {
                 case 0: // стартовый кейс, запускает диалог и дает список команд
                     if (messageText.equals("/start")) {
                         startCommandReceived(chatId);
+                        clearInputMap();
                         sendMessage(chatId, "Введите бренд и желательно название линейки (уточнение линейки ускорит поиск):");
                         usersStatus.put(chatId, 1);
                         break;
@@ -257,29 +264,29 @@ public class LaptopSelectorBot extends TelegramLongPollingBot {
 
     private String createResponse(JSONObject _result) {
         StringBuilder builder = new StringBuilder();
+        if (_result.has("0")) {
             JSONObject info = _result.getJSONObject("0");
-        if (info.length() > 1) {
-            String modelName = info.getJSONArray("model_info").getJSONObject(0)
-                    .getString("noteb_name");
-            String cpuProd = info.getJSONObject("cpu").getString("prod");
-            String cpuModel = info.getJSONObject("cpu").getString("model");
-            String memoryType = info.getJSONObject("memory").getString("type");
-            String memorySize = info.getJSONObject("memory").getString("size") + " " + "Гб";
-            String memorySpeed = info.getJSONObject("memory").getString("speed") + " " + "МГц";
-            String gpuProd = info.getJSONObject("gpu").getString("prod");
-            String gpuModel = info.getJSONObject("gpu").getString("model");
-            String displaySize = info.getJSONObject("display").getString("size") + " " + "дюймов";
-            String price = info.getString("config_price");
-            String picture = info.getJSONObject("model_resources").getString("thumbnail");
-            builder.append(picture).append("\n");
-            builder.append("Модель ноутбука: ").append(modelName).append("\n");
-            builder.append("Процессор: ").append(cpuProd).append(" ").append(cpuModel).append("\n");
-            builder.append("Оперативная память: ").append(memoryType).append(" ").append(memorySize).
-                    append(" ").append(memorySpeed).append("\n");
-            builder.append("Видеокарта: ").append(gpuProd).append(" ").append(gpuModel).append("\n");
-            builder.append("Диагональ дисплея: ").append(displaySize).append("\n");
-            builder.append("Цена: ").append(price).append("$");
-            return builder.toString();
+                String modelName = info.getJSONArray("model_info").getJSONObject(0)
+                        .getString("noteb_name");
+                String cpuProd = info.getJSONObject("cpu").getString("prod");
+                String cpuModel = info.getJSONObject("cpu").getString("model");
+                String memoryType = info.getJSONObject("memory").getString("type");
+                String memorySize = info.getJSONObject("memory").getString("size") + " " + "Гб";
+                String memorySpeed = info.getJSONObject("memory").getString("speed") + " " + "МГц";
+                String gpuProd = info.getJSONObject("gpu").getString("prod");
+                String gpuModel = info.getJSONObject("gpu").getString("model");
+                String displaySize = info.getJSONObject("display").getString("size") + " " + "дюймов";
+                String price = info.getString("config_price");
+                String picture = info.getJSONObject("model_resources").getString("thumbnail");
+                builder.append(picture).append("\n");
+                builder.append("Модель ноутбука: ").append(modelName).append("\n");
+                builder.append("Процессор: ").append(cpuProd).append(" ").append(cpuModel).append("\n");
+                builder.append("Оперативная память: ").append(memoryType).append(" ").append(memorySize).
+                        append(" ").append(memorySpeed).append("\n");
+                builder.append("Видеокарта: ").append(gpuProd).append(" ").append(gpuModel).append("\n");
+                builder.append("Диагональ дисплея: ").append(displaySize).append("\n");
+                builder.append("Цена: ").append(price).append("$");
+                return builder.toString();
         }
         else {
             String message = _result.getString("message");

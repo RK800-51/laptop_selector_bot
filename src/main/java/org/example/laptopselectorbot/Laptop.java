@@ -1,16 +1,16 @@
 package org.example.laptopselectorbot;
 
 public class Laptop {
-    private static String modelName; // full name: brand + numbers
-    private static String cpu;
-    private static String gpu;
-    private static String memoryType;
-    private static String storage;
-    private static String display_type;
-    private static String display_res;
-    private static String imgUrl; // img of laptop in the online store
-    private static String batteryCapacity;
-    private static int budget;
+    private String modelName; // full name: brand + numbers
+    private String cpu;
+    private String gpu;
+    private String memoryType;
+    private String storage;
+    private String display_type;
+    private String display_res;
+    private String imgUrl; // img of laptop in the online store
+    private String batteryCapacity;
+    private int budget;
 
     public int getBudget() {
         return budget;
